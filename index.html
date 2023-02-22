@@ -1,0 +1,134 @@
+<!-- 
+    index.html : Tic-Tac-Toe game board + functionality
+    Abigail Der
+    CS 20
+    Homework 5
+ -->
+ 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="display"><p id="status" class="status-x">Player X Turn</p></div>
+    <div class="display"><div id="board"></div></div>
+    <br />
+    <div class="display"><button id="reset-btn" class="display">Play Again?</button></div>
+
+    <script>
+        const NUM_BOXES = 9;
+        const board = document.getElementById("board");
+        const status_display = document.getElementById("status");
+        const resetBtn = document.getElementById("reset-btn");
+        let board_arr = new Array(NUM_BOXES);
+        let playerX = true;
+        
+        // checkWin : Determines if a player has won, a stalemate has been 
+        //            reached or if game should continue
+        function checkWin() {
+            let winState = playerX? "XXX" : "OOO";
+            
+            // check if a win occurs
+            if ((board_arr[0] + board_arr[1] + board_arr[2]) == winState ||
+                (board_arr[3] + board_arr[4] + board_arr[5]) == winState ||
+                (board_arr[6] + board_arr[7] + board_arr[8]) == winState ||
+                (board_arr[0] + board_arr[3] + board_arr[6]) == winState ||
+                (board_arr[1] + board_arr[4] + board_arr[7]) == winState ||
+                (board_arr[2] + board_arr[5] + board_arr[8]) == winState ||
+                (board_arr[0] + board_arr[4] + board_arr[8]) == winState ||
+                (board_arr[2] + board_arr[4] + board_arr[6]) == winState ) {
+                
+                status_display.textContent = playerX? "Player X Wins!" : "Player O Wins!";
+                status_display.className = playerX? "status-x" : "status-o";
+                resetBtn.style.display = "block";
+                
+                // disable all boxes
+                for (let i = 0; i < NUM_BOXES; i++) {
+                    document.getElementById(i).removeEventListener("click", setBox);
+                }
+
+            } else {
+                // check if stalemate reached
+                let noneEmpty = true;
+                for (let i = 0; i < NUM_BOXES; i++) {
+                    if (document.getElementById(i).classList.contains("empty")) {
+                        noneEmpty = false;
+                    }
+                }
+
+                if (noneEmpty) {
+                    status_display.textContent = "It's a tie!";
+                    status_display.className = "status-tie";
+                    resetBtn.style.display = "block";
+                } else {
+                    // continue with next player's turn
+                    playerX = playerX? false : true;
+                }
+            }
+
+        }
+
+        // setBox : Sets box on board to current player symbol if it's a
+        //          valid move
+        function setBox() {
+            if (this.classList.contains("empty")) {
+                // disable box setting
+                this.classList.remove("empty");
+                this.removeEventListener("click", setBox);
+                
+                // set box + display according to player turn
+                this.innerHTML = playerX? "X" : "O";
+                this.classList.add(playerX? "box-x" : "box-o");
+                board_arr[this.getAttribute("id")] = playerX? "X" : "O";
+                status_display.textContent = playerX? "Player O Turn" : "Player X Turn";
+                status_display.className = playerX? "status-o" : "status-x";
+
+                // check end game conditions
+                checkWin();
+            }
+        }
+
+        // initGame : Initializes the board and array that contains board state
+        function initGame() {
+            // create board
+            for (let i = 0; i < NUM_BOXES; i++) {
+                // initialize box to add to board
+                let box = document.createElement("div");
+                box.classList.add("box");
+                box.classList.add("empty");
+                box.setAttribute("id", i);
+
+                // add its playing function + add to board
+                box.addEventListener("click", setBox);
+                board.appendChild(box);
+            }
+            board_arr = new Array(NUM_BOXES);
+            resetBtn.style.display = "none";
+        }
+
+        // initializes game to start
+        initGame();
+
+        // resets game state
+        resetBtn.onclick = function () {
+            status_display.textContent = "Player X Turn";
+            status_display.className = "status-x";
+            playerX = true;
+
+            // remove game board boxes
+            for (let i = 0; i < NUM_BOXES; i++) {
+                let box = document.getElementById(i);
+                board.removeChild(box);
+            }
+            initGame();
+        }
+
+    </script>
+    
+</body>
+</html>

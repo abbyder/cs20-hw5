@@ -1,0 +1,89 @@
+/* 
+ * styles.css : Contains styling for index.html
+ * Abigail Der
+ * CS 20
+ * Homework 5
+ */
+
+html, body {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+h1 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 0px;
+}
+
+.display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.status-x {
+    background-color: #f39999;
+}
+
+.status-o {
+    background-color: #8bc2f9;
+}
+
+.status-tie {
+    background-color: #d4aff7;
+}
+
+#board {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    width: 300px;
+    height: 300px;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    font-weight: 500;
+}
+
+.box-x {
+    color: #d26161;
+}
+
+.box-o {
+    color: #468bd0;
+}
+
+#reset-btn {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    background-color: white;
+    width: 200px;
+    height: 40px;
+    border: 2px solid black;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+#reset-btn:hover {
+    background-color: #d4aff7;
+}
